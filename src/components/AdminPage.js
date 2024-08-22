@@ -4,6 +4,7 @@ import React from 'react';
 import '../App.css';
 import PhaserGame from './PhaserGame';
 import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
 const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
 
 
@@ -15,7 +16,7 @@ function AdminPage() {
 
     return (
         <div className="container">
-      
+            <Link to='/guest' className='guest-btn'>GuestPage</Link>
             <div className="button-container top">
                 <button onClick={() => handleButtonClick('top-left')}>Top left</button>
                 <button onClick={() => handleButtonClick('top-right')}>Top right</button>
