@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PhaserGame from './PhaserGame';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:4000'); // Connect to the Socket.io server
+const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
 
 function GuestPage() {
     const [buttonPresses, setButtonPresses] = useState([]);
@@ -25,7 +25,7 @@ function GuestPage() {
                 <h3>Button Presses:</h3>
                 <ul>
                     {buttonPresses.map((press, index) => (
-                        <li key={index}>{press}</li>
+                        <span key={index}>{press}   ,</span>
                     ))}
                 </ul>
             </div>
