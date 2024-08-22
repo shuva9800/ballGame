@@ -18,7 +18,7 @@ function AdminPage() {
         <div className="container">
             <Link to='/guest' className='guest-btn'>GuestPage</Link>
             <div className="button-container top">
-                <button onClick={() => handleButtonClick('top-left')}>Top left</button>
+                <button  onClick={() => handleButtonClick('top-left')}>Top left</button>
                 <button onClick={() => handleButtonClick('top-right')}>Top right</button>
             </div>
             <div className="content">
