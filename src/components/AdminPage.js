@@ -4,8 +4,6 @@ import React from 'react';
 import '../App.css';
 import PhaserGame from './PhaserGame';
 import io from 'socket.io-client';
-import { Link } from 'react-router-dom';
-
 const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
 
 
