@@ -1,5 +1,4 @@
 
-// PhaserGame.js
 import React, { useEffect } from 'react';
 import Phaser from 'phaser';
 import io from 'socket.io-client';
