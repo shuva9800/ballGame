@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 
 const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
 
+
+
 function GuestPage() {
     const [buttonPresses, setButtonPresses] = useState([]);
 

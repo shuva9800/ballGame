@@ -4,6 +4,8 @@ import Phaser from 'phaser';
 import io from 'socket.io-client';
 
 const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
+// const socket = io('http://localhost:4000'); // Connect to the Socket.io server
+
 
 function PhaserGame() {
     useEffect(() => {
