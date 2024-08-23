@@ -1,13 +1,15 @@
 
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 import io from 'socket.io-client';
 
 const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
 
-// Define PhaserGame as a named function to avoid redeclaration of `PhaserGame.moveBall` each time
 function PhaserGame() {
+    const gameRef = useRef(null);
+    const ballRef = useRef(null);
+    const isMovingRef = useRef(false); // Ref to prevent multiple moves at once
+
     useEffect(() => {
         const config = {
             type: Phaser.AUTO,
@@ -23,36 +25,39 @@ function PhaserGame() {
                 },
             },
             scene: {
-                preload: preload,
-                create: create,
-                update: update,
+                preload,
+                create,
+                update,
             },
         };
 
-        const game = new Phaser.Game(config);
-        let ball;
+        gameRef.current = new Phaser.Game(config);
 
         function preload() {
             this.load.image('ball', 'ball.svg');
         }
 
         function create() {
-            ball = this.physics.add.image(200, 200, 'ball');
-            ball.setCollideWorldBounds(true);
-            ball.setBounce(1, 1);
-            ball.setVelocity(200, 200); // Initial velocity
+            ballRef.current = this.physics.add.image(200, 200, 'ball');
+            ballRef.current.setCollideWorldBounds(true);
+            ballRef.current.setBounce(1, 1);
+            ballRef.current.setVelocity(200, 200);
         }
 
         function update() {
             // No additional logic needed here for now
         }
 
-        // Define the moveBall function on the PhaserGame instance to ensure only one instance exists
-        PhaserGame.moveBall = function (direction) {
+        PhaserGame.moveBall = (direction) => {
+            if (isMovingRef.current) return; // Prevent multiple moves
+
+            isMovingRef.current = true; // Set moving flag
+            const ball = ballRef.current;
             const speed = 300;
+
             switch (direction) {
                 case 'top-left':
-                    // ball.setPosition(100, 50);
+                    ball.setPosition(100, 50);
                     ball.setVelocity(-speed, -speed);
                     break;
                 case 'top-right':
@@ -87,23 +92,29 @@ function PhaserGame() {
                     ball.setVelocity(0, 0);
                     break;
             }
+
+            // Reset the moving flag after a short delay (300ms for example)
+            setTimeout(() => {
+                isMovingRef.current = false;
+            }, 300);
         };
 
-        // Clean up the game and socket listener when the component unmounts
+        // Cleanup on component unmount
         return () => {
-            game.destroy(true); // Destroy game instance
-            socket.off('buttonPress'); // Remove the buttonPress listener
+            if (gameRef.current) {
+                gameRef.current.destroy(true);
+            }
+            socket.off('buttonPress');
         };
     }, []);
 
-    // Socket listener should only be registered once, not inside useEffect to avoid multiple registrations
     useEffect(() => {
         socket.on('buttonPress', (direction) => {
             PhaserGame.moveBall(direction);
         });
 
         return () => {
-            socket.off('buttonPress'); // Ensure the listener is removed on component unmount
+            socket.off('buttonPress');
         };
     }, []);
 
@@ -111,6 +122,7 @@ function PhaserGame() {
 }
 
 export default PhaserGame;
+
 
 
 
