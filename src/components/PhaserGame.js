@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 import io from 'socket.io-client';
@@ -65,11 +64,11 @@ function PhaserGame() {
                     ball.setVelocity(speed, -speed);
                     break;
                 case 'bottom-left':
-                    ball.setPosition(50, 390);
+                    ball.setPosition(50, 350);
                     ball.setVelocity(-speed, speed);
                     break;
                 case 'bottom-right':
-                    ball.setPosition(390, 350);
+                    ball.setPosition(350, 350);
                     ball.setVelocity(speed, speed);
                     break;
                 case 'left-top':
@@ -99,22 +98,22 @@ function PhaserGame() {
             }, 300);
         };
 
-        // Cleanup on component unmount
         return () => {
             if (gameRef.current) {
                 gameRef.current.destroy(true);
             }
-            socket.off('buttonPress');
         };
     }, []);
 
     useEffect(() => {
-        socket.on('buttonPress', (direction) => {
+        const handleButtonPress = (direction) => {
             PhaserGame.moveBall(direction);
-        });
+        };
+
+        socket.on('buttonPress', handleButtonPress);
 
         return () => {
-            socket.off('buttonPress');
+            socket.off('buttonPress', handleButtonPress);
         };
     }, []);
 
@@ -122,6 +121,7 @@ function PhaserGame() {
 }
 
 export default PhaserGame;
+
 
 
 
