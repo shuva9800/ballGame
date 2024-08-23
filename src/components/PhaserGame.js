@@ -52,7 +52,7 @@ function PhaserGame() {
             const speed = 300;
             switch (direction) {
                 case 'top-left':
-                    ball.setPosition(100, 50);
+                    // ball.setPosition(100, 50);
                     ball.setVelocity(-speed, -speed);
                     break;
                 case 'top-right':
