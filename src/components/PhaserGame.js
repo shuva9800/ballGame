@@ -103,12 +103,14 @@
 
 
 
+
 import React, { useEffect } from 'react';
 import Phaser from 'phaser';
 import io from 'socket.io-client';
 
-// Ensure socket is created only once
-const socket = io('https://gameappbackend.onrender.com')
+const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
+// const socket = io('http://localhost:4000'); // Connect to the Socket.io server
+
 
 function PhaserGame() {
     useEffect(() => {
@@ -143,29 +145,31 @@ function PhaserGame() {
             ball = this.physics.add.image(200, 200, 'ball');
             ball.setCollideWorldBounds(true);
             ball.setBounce(1, 1);
+            ball.setVelocity(200, 200);
         }
 
         function update() {
             // No additional logic needed here for now
         }
 
+
         PhaserGame.moveBall = function (direction) {
             const speed = 300;
             switch (direction) {
                 case 'top-left':
-                    ball.setPosition(50, 50);
+                    ball.setPosition(100, 50);
                     ball.setVelocity(-speed, -speed);
                     break;
                 case 'top-right':
-                    ball.setPosition(350, 50);
+                    ball.setPosition(300, 50);
                     ball.setVelocity(speed, -speed);
                     break;
                 case 'bottom-left':
-                    ball.setPosition(50, 350);
+                    ball.setPosition(50, 390);
                     ball.setVelocity(-speed, speed);
                     break;
                 case 'bottom-right':
-                    ball.setPosition(350, 350);
+                    ball.setPosition(390, 350);
                     ball.setVelocity(speed, speed);
                     break;
                 case 'left-top':
@@ -189,15 +193,13 @@ function PhaserGame() {
                     break;
             }
         };
-
-        // Ensure this listener is added only once
+        // Listen for button press events from the server
         socket.on('buttonPress', (direction) => {
             PhaserGame.moveBall(direction);
         });
 
         return () => {
             game.destroy(true);
-               socket.off('buttonPress'); // Cleanup event listener
         };
     }, []);
 
@@ -205,3 +207,4 @@ function PhaserGame() {
 }
 
 export default PhaserGame;
+
