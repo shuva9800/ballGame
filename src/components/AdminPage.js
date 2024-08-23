@@ -7,7 +7,7 @@ import PhaserGame from './PhaserGame';
 import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
 
-const socket = io('https://gameappbackend.onrender.com'); 
+const socket = io('https://ball-backend.onrender.com'); 
 
 function AdminPage() {
     const handleButtonClick = (direction) => {

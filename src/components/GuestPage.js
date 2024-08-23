@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PhaserGame from './PhaserGame';
 import io from 'socket.io-client';
 
-const socket = io('https://gameappbackend.onrender.com'); // Connect to the Socket.io server
+const socket = io('https://ball-backend.onrender.com'); // Connect to the Socket.io server
 
 
 
