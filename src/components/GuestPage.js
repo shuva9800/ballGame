@@ -10,7 +10,6 @@ function GuestPage() {
     const [buttonPresses, setButtonPresses] = useState([]);
 
     useEffect(() => {
-        // Listen for button press events from the server
         socket.on('buttonPress', (direction) => {
             setButtonPresses((prev) => [...prev, direction]);
         });
